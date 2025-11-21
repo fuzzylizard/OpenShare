@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 import kyInstance from "@/lib/ky";
 import { Button } from "@/components/ui/button";
 import InfiniteScrollContainer from "@/components/InfiniteScrollContainer";
+import PostsLoadingSkeleton from "@/components/posts/PostsLoadingSkeleton";
 
 export default function Feed() {
   const {
@@ -32,7 +33,11 @@ export default function Feed() {
   const posts = data?.pages.flatMap((page) => page.posts) || [];
 
   if (status === "pending") {
-    return <Loader2 className="mx-auto animate-spin" />;
+    return <PostsLoadingSkeleton />;
+  }
+
+  if (status === "success" && !posts.length && !hasNextPage) {
+    return <p className="text-center text-muted-foreground">No posts yet</p>;
   }
 
   if (status === "error") {
