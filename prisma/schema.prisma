@@ -46,9 +46,9 @@ model Session {
 
 model Follow {
   followerId  String
-  follower    User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  follower    User   @relation("following", fields: [followerId], references: [id], onDelete: Cascade)
   followingId String
-  following   User   @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+  following   User   @relation("follower", fields: [followingId], references: [id], onDelete: Cascade)
 
   @@unique([followerId, followingId])
   @@map("follows")
